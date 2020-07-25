@@ -1,3 +1,6 @@
 sanic==20.6.3
 requests==2.24.0
 motor==2.1.0
+uvloop==0.14.0
+aiotask_context==0.6.1
+sanic-transmute==0.1.3
