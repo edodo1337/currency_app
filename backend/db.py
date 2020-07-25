@@ -18,14 +18,7 @@ loop = asyncio.get_event_loop()
 db = loop.run_until_complete(setup_db())
 
 
-async def scheduled_task(timeout, task):
-    while True:
-        print("RUNNING TASK")
-        await task()
-        await asyncio.sleep(timeout)
-
-
-async def update_currenct():
+async def update_currency():
     data = urlopen('http://www.cbr.ru/scripts/XML_daily.asp')
     xmldoc = parse(data)
 
@@ -35,9 +28,22 @@ async def update_currenct():
         char_code = item.findtext('CharCode')
         value = float(item.findtext('Value').replace(',', '.'))
         item_info = {'char_code': char_code, 'value': value}
-        old_document = await coll.find_one({'i': 50})
-        print("OLD", old_document)
+        # old_document = await coll.find_one({'i': 50})
+        print("OLD", item_info)
         # result = await db.currency_data.insert_one(item_info)
 
 
-loop.run_until_complete(scheduled_task(60, update_currenct))
+async def scheduled_task(timeout, task):
+    while True:
+        print("RUNNING TASK")
+        await task()
+        await asyncio.sleep(timeout)
+
+
+# loop.run_until_complete(scheduled_task(60, update_currency))
+# import threading
+#
+# loop = asyncio.get_event_loop()
+#
+# asyncio.ensure_future(scheduled_task(60, update_currency()))
+#

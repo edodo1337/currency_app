@@ -33,6 +33,13 @@ async def test(request, valute):
     return response.json({"data": result})
 
 
+@app.listener('testing')
+def db_fetch(sanic, loop):
+    loop = asyncio.get_event_loop()
+
+    asyncio.ensure_future(scheduled_task(60, update_currency()))
+
+
 app.blueprint(api_blueprint)
 
 if __name__ == '__main__':

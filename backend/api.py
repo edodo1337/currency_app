@@ -1,6 +1,6 @@
 from sanic import Blueprint
 from sanic.response import file, json
-from db import db
+# from db import db
 
 api_blueprint = Blueprint('api', url_prefix='/api')
 
